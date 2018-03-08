@@ -1,5 +1,7 @@
 $nsgName="Lab1-nsg"
-$resourceGroupName="rgAzureNetworkingLEAP"
+
+$resourceGroupName = Read-Host 'What is your Resource Group name?'
+
 $location="westus"
 
 #check if we need to log in
