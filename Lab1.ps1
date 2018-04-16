@@ -1,4 +1,4 @@
-$nsgName="Lab1-nsg"
+$nsgName="Lab-nsg"
 $resourceGroupName="rgAzureNetworkingLEAP"
 $location="westus"
 
@@ -54,7 +54,7 @@ $cred = Get-Credential -Message "Enter information for the local administrator o
 
 #create availability set for the load balanced VMs in VNET0
 Write-Host "Adding availability set..." -ForegroundColor Yellow
-$as = New-AzureRmAvailabilitySet -ResourceGroupName $resourceGroupName -Name "Lab1AvailabilitySet" -Location $location `
+$as = New-AzureRmAvailabilitySet -ResourceGroupName $resourceGroupName -Name "LabAvailabilitySet" -Location $location `
     -Sku aligned `
     -PlatformFaultDomainCount 2 `
     -PlatformUpdateDomainCount 2
@@ -63,12 +63,12 @@ $as = New-AzureRmAvailabilitySet -ResourceGroupName $resourceGroupName -Name "La
 for ($i = 0; $i -lt 2; $i++) {
 
     #names, etc.
-    $ComputerName = "Lab1VM$($i)"
+    $ComputerName = "LabVM$($i)"
     Write-Host "Creating $($ComputerName)..." -ForegroundColor Yellow
 
-    $VMName = "Lab1VM$($i)"
+    $VMName = "LabVM$($i)"
     $VMSize = "Standard_B2ms"
-    $NICName = "Lab1VM$($i)-NIC"
+    $NICName = "LabVM$($i)-NIC"
     $PublicIPAddressName = "Lab1VM$($i)-PIP"
 
     $Vnet = Get-AzureRmVirtualNetwork -Name  "VNET0" -ResourceGroupName $resourceGroupName
@@ -88,7 +88,7 @@ for ($i = 0; $i -lt 2; $i++) {
 
 ##one VM in VNET1
 #names, etc.
-$ComputerName = "Lab1VM2"
+$ComputerName = "LabVM2"
 Write-Host "Creating $($ComputerName)..." -ForegroundColor Yellow
 
 $VMName = $ComputerName
@@ -111,9 +111,9 @@ New-AzureRmVM -ResourceGroupName $resourceGroupName -Location $location -VM $vmC
 Write-Host "Created $($ComputerName)..." -ForegroundColor Green
 
 #install IIS, configure firewall, create HTML file on all three VMs
-Write-Host "Configuring the VMs for Lab1..." -ForegroundColor Yellow
+Write-Host "Configuring the VMs for Lab..." -ForegroundColor Yellow
 for ($i = 0; $i -lt 3; $i++) {
-    $VMName = "Lab1VM$($i)"
+    $VMName = "LabVM$($i)"
     Write-Host "Configuring $($VMName)..." -ForegroundColor Yellow
 
    ##call the custom script extension to configure the VMs
@@ -122,14 +122,14 @@ for ($i = 0; $i -lt 3; $i++) {
     -Location $location `
     -FileUri https://raw.githubusercontent.com/EvanBasalik/AzureNetworkingTrainingClass/master/ConfigureVMScript.ps1 `
     -Run 'ConfigureVMScript.ps1' `
-    -Name "Lab1Prep"
+    -Name "LabPrep"
 }
 
-Write-Host "All VMs for Lab1 created and configured" -ForegroundColor Green
+Write-Host "All VMs for Lab created and configured" -ForegroundColor Green
 
 ##write out the web server URLs and RDP files
 for ($i = 0; $i -lt 3; $i++) {
-    $VMName = "Lab1VM$($i)"
+    $VMName = "LabVM$($i)"
 
     #Get the public IP
     $vm=Get-AzureRMVM -ResourceGroupName $resourceGroupName -Name $VMName
@@ -162,7 +162,7 @@ $TMprofile = New-AzureRmTrafficManagerProfile -Name "Lab1TM" -ResourceGroupName 
 
 #Add the endpoints
 for ($i = 0; $i -lt 3; $i++) {
-    $PIPName = "Lab1VM$($i)-PIP"
+    $PIPName = "LabVM$($i)-PIP"
     $ip = Get-AzureRmPublicIpAddress -Name $PIPName -ResourceGroupName $resourceGroupName
     New-AzureRmTrafficManagerEndpoint -Name "$($PIPName)-TMEndpoint" -ProfileName $TMprofile.Name `
         -ResourceGroupName $resourceGroupName -Type AzureEndpoints -TargetResourceId $ip.Id -EndpointStatus Enabled 
