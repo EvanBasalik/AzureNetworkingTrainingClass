@@ -8,6 +8,8 @@ After that, you will learn about VNET peering by making the web site accessible 
 
 Lastly, you will use Azure VPN point-to-site functionality to make the site accessible from your local machine across a secure VPN tunnel to your VNET (*in the script, but not yet in the walkthrough*).
 
+When you are done, you will be able to run the script TestLB.ps1 and point it either to the external load balancer IP or the Traffic Manager endpoint and see the server servicing the requests rotate as expected.
+
 You can follow the steps below using the portal or you can leverage the PowerShell scripts (*CLI scripts coming*)
 
 **Details**
