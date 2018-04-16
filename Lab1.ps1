@@ -1,5 +1,5 @@
 $nsgName="Lab-nsg"
-$resourceGroupName="rgAzureNetworkingLEAP"
+$resourceGroupName="rgAzureNetworkingLab"
 $location="westus"
 
 #check if we need to log in
