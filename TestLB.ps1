@@ -4,6 +4,9 @@ for ($i = 0; $i -lt 100; $i++) {
     #use the IP if you want to test the ELB
     #$targetIP = "40.112.151.80"
 
+    #use the IP if you want to test the ILB
+    #$targetIP = "10.0.0.5"
+
     #use the DNS name if you want to test Traffic Manager endpoint
     $targetIP = "rgazurenetworkinglab.trafficmanager.net"
     $url= "http://$($targetIP)/default.html"
