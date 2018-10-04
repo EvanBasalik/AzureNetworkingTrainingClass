@@ -1,14 +1,29 @@
+$resourceGroupName="rgAzureNetworkingLab"
+
+#check if we need to log in
+$context =  Get-AzureRmContext
+if ($context.Environment -eq $null) {
+    Login-AzureRmAccount
+}
+
+#use the IP if you want to test the ELB
+#$targetIP = "40.112.151.80"
+$ELB = Get-AzureRmLoadBalancer -Name ELB -ResourceGroupName $resourceGroupName
+$ELBIP = $elb.FrontendIpConfigurations[0].PublicIpAddress
+$targetIP = $ELBIP
+
+#use the IP if you want to test the ILB and run the test from VM0 or VM1
+$ILB = Get-AzureRmLoadBalancer -Name ILB -ResourceGroupName $resourceGroupName
+$ILBIP = $ILB.FrontendIpConfigurations[0].PrivateIpAddress
+$targetIP = $ILBIP
+
+#use the DNS name if you want to test Traffic Manager endpoint
+$targetIP = "rgazurenetworkinglab.trafficmanager.net"
+
 for ($i = 0; $i -lt 100; $i++) {
     Write-Host "Attempt $($i)"
 
-    #use the IP if you want to test the ELB
-    #$targetIP = "40.112.151.80"
 
-    #use the IP if you want to test the ILB
-    #$targetIP = "10.0.0.5"
-
-    #use the DNS name if you want to test Traffic Manager endpoint
-    $targetIP = "rgazurenetworkinglab.trafficmanager.net"
     $url= "http://$($targetIP)/default.html"
 
     $html = ""

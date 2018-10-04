@@ -149,7 +149,7 @@ for ($i = 0; $i -lt 3; $i++) {
 
 $OUTPUT= [System.Windows.Forms.MessageBox]::Show("Please go create your ILB and ELB in the portal. Click OK when done." , `
     "Wait for load balancers" , [System.Windows.Forms.MessageBoxButtons]::OK)
-#Add an ILB in VNET0 via the portal -> Choose your availability set (LabAvailabilitySet by default) and use TCP 80
+#Add an ILB in VNET0 via the portal -> Choose your availability set (LabAvailabilitySet by default), add LB rules, and use TCP 80 for proble
 #Add an ELB in VNET0 via the portal -> same as above
 
 $OUTPUT= [System.Windows.Forms.MessageBox]::Show("While you are in the portal, create your shutdown schedules. Click OK when done." , `
@@ -158,7 +158,7 @@ $OUTPUT= [System.Windows.Forms.MessageBox]::Show("While you are in the portal, c
 
 #Create the Traffic Manager profile
 $TMprofile = New-AzureRmTrafficManagerProfile -Name "LabTM" -ResourceGroupName $resourceGroupName `
-    -TrafficRoutingMethod Weighted -RelativeDnsName $resourceGroupName -Ttl 5 -MonitorProtocol HTTP -MonitorPort 80 -MonitorPath "/"
+    -TrafficRoutingMethod Weighted -RelativeDnsName $resourceGroupName -Ttl 5 -MonitorProtocol HTTP -MonitorPort 80 -MonitorPath "/" -MonitorToleratedNumberOfFailures 1 -MonitorTimeoutInSeconds 5 -MonitorIntervalInSeconds 10
 
 #Add the endpoints
 for ($i = 0; $i -lt 3; $i++) {
