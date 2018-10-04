@@ -1,8 +1,11 @@
 for ($i = 0; $i -lt 100; $i++) {
     Write-Host "Attempt $($i)"
 
+    #use the IP if you want to test the ELB
     #$targetIP = "40.112.151.80"
-    $targetIP = "rgazurenetworkingleap.trafficmanager.net"
+
+    #use the DNS name if you want to test Traffic Manager endpoint
+    $targetIP = "rgazurenetworkinglab.trafficmanager.net"
     $url= "http://$($targetIP)/default.html"
 
     $html = ""

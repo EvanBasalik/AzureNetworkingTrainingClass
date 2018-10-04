@@ -1,5 +1,5 @@
 $nsgName="Lab-nsg"
-$resourceGroupName="rgAzureNetworkingLabUG"
+$resourceGroupName="rgAzureNetworkingLab"
 $location="westus"
 
 #check if we need to log in
@@ -69,7 +69,7 @@ for ($i = 0; $i -lt 2; $i++) {
     $VMName = "LabVM$($i)"
     $VMSize = "Standard_B2ms"
     $NICName = "LabVM$($i)-NIC"
-    $PublicIPAddressName = "Lab1VM$($i)-PIP"
+    $PublicIPAddressName = "LabVM$($i)-PIP"
 
     $Vnet = Get-AzureRmVirtualNetwork -Name  "VNET0" -ResourceGroupName $resourceGroupName
     $PIP = New-AzureRmPublicIpAddress -Name $PublicIPAddressName -ResourceGroupName $resourceGroupName -Location $location -DomainNameLabel "$($resourceGroupName)PIP$($i)".ToLower() -AllocationMethod Static
@@ -149,8 +149,8 @@ for ($i = 0; $i -lt 3; $i++) {
 
 $OUTPUT= [System.Windows.Forms.MessageBox]::Show("Please go create your ILB and ELB in the portal. Click OK when done." , `
     "Wait for load balancers" , [System.Windows.Forms.MessageBoxButtons]::OK)
-#Add an ILB in VNET1 via the portal -> Choose your availability set (LabAvailabilitySet by default) and use TCP 80
-#Add an ELB in VNET1 via the portal -> same as above
+#Add an ILB in VNET0 via the portal -> Choose your availability set (LabAvailabilitySet by default) and use TCP 80
+#Add an ELB in VNET0 via the portal -> same as above
 
 $OUTPUT= [System.Windows.Forms.MessageBox]::Show("While you are in the portal, create your shutdown schedules. Click OK when done." , `
     "Wait for shutdown schedule" , [System.Windows.Forms.MessageBoxButtons]::OK)
